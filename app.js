@@ -1,6 +1,7 @@
 var express= require('express');
 var app= express();
 var fs = require('fs');
+var mongoose = require('mongoose');
 var bodyparser= require('body-parser');
 var multer  = require('multer');
 var cookieparser= require('cookie-parser');
