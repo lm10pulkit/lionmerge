@@ -105,5 +105,5 @@ console.log(req.url);
 res.send(req.url);
 });
 app.listen(port,function(err){
-console.log('connected to the port 8080');
+console.log('connected to the port '+ port);
 });
