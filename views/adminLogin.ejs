@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>login Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+.w3-sidebar a {font-family: "Roboto", sans-serif}
+body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "arial", sans-serif;}
+  .container{
+    position: relative;
+      top: 100px;
+    max-width: 680px;
+    background-color:rgb(237,237,237);
+    padding: 20px;
+    border-radius: 5px;
+
+  }
+  body{
+    background-image: url('background.jpg');
+  }
+  @media screen and (max-width:480px)
+{
+.contianer{
+  margin:0 auto;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+  
+    <div class="jumbotron jumbotron-fluid text-center  ">
+      <div class="container-fluid" >
+      <a href="#home" style="text-decoration: none; color: black;"><h1 class="display-1"> LionMerge</h1></a>
+    </div>
+  </div>
+
+<div class="container">
+ 
+  <form class="form-horizontal" method='post' action="/signin">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">UserName:</label>
+      <div class="col-sm-10">
+        <input type="username" class="form-control" id="username" placeholder="Enter User Name" name="username">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Password:</label>
+      <div class="col-sm-10">          
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+       
+          <a href="" style="color: red;text-decoration: none;">Forget Password ?</a>
+      
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Login</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
