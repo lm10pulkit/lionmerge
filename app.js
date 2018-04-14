@@ -12,7 +12,7 @@ var {hash,compare}= require('./hashing.js');
 var {findById,findByUsername}= require('./db.js');
 var remove = require('./photodeletion.js');
 var uploadimage = require('./uploadimage');
-cont port = process.env.PORT||8080;
+const port = process.env.PORT||8080;
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, './public/uploads');
@@ -104,6 +104,6 @@ app.use(function(req,res,next){
 console.log(req.url);
 res.send(req.url);
 });
-app.listen(8080,function(err){
+app.listen(port,function(err){
 console.log('connected to the port 8080');
 });
