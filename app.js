@@ -85,12 +85,15 @@ app.get('/yo',function(req,res){
 });
 app.post('/',upload.single('avatar'),function(req,res){
       var path = __dirname+ '/public/uploads/'+ req.file.filename;
-    uploadimage(path,function(result){
+      console.log(path);
+      console.log(req.file);
+      if(req.file){
+     uploadimage(path,function(result){
         res.send(result);
-        remove(req.file.filename,function(status){
-           console.log(status);
-        });
-    });
+     });
+     }
+     else
+     	res.send(req.file);
 });
 
 app.get('/adminLogin',function(req,res){
