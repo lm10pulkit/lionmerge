@@ -21,6 +21,7 @@ var storage =   multer.diskStorage({
     callback(null, file.originalname);
   }
 });
+var MongoStore = require('connect-mongo')(session);
 var upload = multer({ storage:storage});
 //view engine
 app.set('view engine','ejs');
@@ -35,7 +36,8 @@ app.use(session(
 	{
 		secret:'secret',
 	    saveUninitialized:true,
-		resave:true
+		resave:true,
+		store : new MongoStore({mongooseConnection:mongoose.connection})
 	}));
 //middleware for passport
 app.use(passport.initialize());

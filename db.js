@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var {hash,compare} = require('./hashing.js');
-mongoose.connect('mongodb://localhost/lionmerge');
+mongoose.connect(process.env.MONGODB_URI||'mongodb://localhost/lionmerge');
 var admin= require('./schema/adminschema');
 var product = require('./schema/productschema');
 var findById = function(id,callback){
