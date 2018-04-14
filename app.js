@@ -12,6 +12,7 @@ var {hash,compare}= require('./hashing.js');
 var {findById,findByUsername}= require('./db.js');
 var remove = require('./photodeletion.js');
 var uploadimage = require('./uploadimage');
+cont port = process.env.PORT||8080;
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, './public/uploads');
