@@ -46,6 +46,10 @@ console.log(data);
 product.find().then(function(data){
   console.log(data);
 });
+add('pulkit','pulkit',function(){
+console.log(err);
+console.log(data);
+});
 module.exports ={
 	findById,
 	findByUsername,
