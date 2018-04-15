@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var productcshema = new schema ({
+var productschema = new schema ({
 name :{
 	type:String 
 },
@@ -20,3 +20,5 @@ subcategory:{
 	type:String 
 }
 });
+var product =mongoose.model('product',productschema);
+module.exports=product;

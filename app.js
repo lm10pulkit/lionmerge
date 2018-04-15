@@ -10,7 +10,8 @@ var passport = require('passport');
 var localstrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var {hash,compare}= require('./hashing.js');
-var {findById,findByUsername}= require('./db.js');
+var {findById,findByUsername,addProduct,deleteProduct
+  ,addImage,findProductById,allProduct}= require('./db.js');
 var remove = require('./photodeletion.js');
 var uploadimage = require('./uploadimage');
 const port = process.env.PORT||8080;
@@ -19,7 +20,8 @@ var storage =   multer.diskStorage({
     callback(null, './public/uploads');
   },
   filename: function (req, file, callback) {
-    callback(null, file.originalname);
+     var name ='cal'+ new Date().getTime()+".jpeg"; 
+    callback(null, name);
   }
 });
 var MongoStore = require('connect-mongo')(session);
@@ -31,7 +33,6 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 // middleware for cookie parser
 app.use(cookieparser());
-
 //middleware for session
 app.use(session(
 	{
@@ -80,12 +81,16 @@ passReqToCallback:true
        }
 	});  
 }));
+ var loggedin = function(req,res,next){
+   if(req.user)
+     next();
+   else
+    res.redirect('/adminLogin');
+ };
 app.get('/',function(req,res){
-res.render('imageupload.ejs');
+   res.render('home.ejs');
 });
-app.get('/yo',function(req,res){
-   res.sendFile(__dirname+'/goodmorning.html');
-});
+/*
 app.post('/',upload.single('avatar'),function(req,res){
       var path = __dirname+ '/public/uploads/'+ req.file.filename;
      
@@ -97,17 +102,53 @@ app.post('/',upload.single('avatar'),function(req,res){
      });
     
 });
-
-app.get('/adminLogin',function(req,res){
+*/
+app.get('/adminlogin',function(req,res){
      res.render('adminLogin.ejs');
 });
-app.post('/signin',passport.authenticate('signin',{failureRedirect:"/adminLogin"}),function(req,res){
-	console.log(req.user);
-    res.send(req.user);
+app.post('/signin',passport.authenticate('signin',{failureRedirect:"/adminlogin"}),function(req,res){
+     res.redirect('/admin/addProduct');
+});
+app.get('/admin/addProduct',loggedin,function(req,res){
+    res.render('addProduct');
+});
+app.post('/admin/addProduct',loggedin,function(req,res){
+     var body = req.body;
+      addProduct(body,function(err,data){
+        res.redirect('/admin/addImage?id='+data._id);
+      });
+      
+});
+app.get('/admin/addImage',loggedin,function(req,res){
+     res.render('uploadimage.ejs',{productid:req.query.id});
+});
+app.post('/admin/addImage/:id',[loggedin,upload.single('productimage')], function(req,res){
+     var id = req.params.id;
+     var name = req.file.filename;
+     var path =__dirname+ "/public/uploads/"+name;
+     uploadimage(path,function(data){
+        addImage(id,data.secure_url,function(err,data){
+            res.redirect('/admin/myproduct?id='+id);
+        });
+        remove(name,function(status){
+            console.log(status);
+        });
+     });
+});
+app.get('/admin/myproduct',function(req,res){
+  var id = req.query.id;
+  findProductById(id,function(err,data){
+     res.render('product',{data:data});
+  });
+});
+app.get('/admin/allproducts',function(req,res){
+    allProduct(function(err,data){
+       res.render('myproductlist.ejs',{data:data});
+    });
 });
 app.use(function(req,res,next){
 console.log(req.url);
-res.send(req.url);
+res.send(req.url+" is not available");
 });
 app.listen(port,function(err){
 console.log('connected to the port '+ port);
