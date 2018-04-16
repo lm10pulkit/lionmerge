@@ -11,7 +11,13 @@ var localstrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var {hash,compare}= require('./hashing.js');
 var {findById,findByUsername,addProduct,deleteProduct
-  ,addImage,findProductById,allProduct}= require('./db.js');
+  ,addImage,findProductById,allProduct
+,filterProductByCategory
+,filterProductBySubCategory
+,addCategory
+,addsubCategory
+,removesubCategory
+,removeCategory,findCategoryById,allCategory}= require('./db.js');
 var remove = require('./photodeletion.js');
 var uploadimage = require('./uploadimage');
 const port = process.env.PORT||8080;
@@ -144,6 +150,62 @@ app.get('/admin/myproduct',function(req,res){
 app.get('/admin/allproducts',function(req,res){
     allProduct(function(err,data){
        res.render('myproductlist.ejs',{data:data});
+    });
+});
+// all categories
+app.get('/admin/allCategory',function(req,res){
+    allCategory(function(err,data){
+        res.render('allcategory',{data:data});      
+    });
+});
+// route for adding a category
+app.post('/admin/addCategory',function(req,res){
+   var name = req.body.name;
+   addCategory(name,function(err,data){
+      var url = '/admin/category/'+data._id;
+      res.redirect(url);
+   });
+});
+// route for viewing category
+app.get('/admin/category/:id',function(req,res){
+    var id = req.params.id;
+    findCategoryById(id,function(err,data){
+        res.render('category.ejs',{data:data});
+    });
+});
+// adding subcategory
+app.post('/admin/addsubCategory/:id',function(req,res){
+   var id = req.params.id;
+   var subcategory = req.body.subcategory;
+   addsubCategory(id,subcategory,function(err,data){
+     var url ='/admin/category/'+id;
+      res.redirect(url);
+   });
+});
+// removing subcategory
+app.get('/admin/removesubCategory/:id',function(req,res){
+    var id = req.params.id;
+    var subcategory= req.query.subcategory;
+     console.log(subcategory);
+    if(!id)
+    {
+      var url ='/admin/category/'+id;
+      res.redirect(url);
+    }
+    if(!subcategory){
+      var url ='/admin/category/'+id;
+      res.redirect(url);
+    }
+    removesubCategory(id,subcategory,function(err,data){
+       var url ='/admin/category/'+id;
+      res.redirect(url);
+    });
+});
+// route for deleting a category
+app.get('/admin/deleteCategory/:id',function(req,res){
+    var id = req.params.id;
+    removeCategory(id,function(err,data){
+        res.redirect('/admin/allCategory');
     });
 });
 app.use(function(req,res,next){
