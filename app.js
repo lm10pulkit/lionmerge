@@ -208,6 +208,16 @@ app.get('/admin/deleteCategory/:id',function(req,res){
         res.redirect('/admin/allCategory');
     });
 });
+app.post('/category',function(req,res){
+    var name = req.body.name+ new date().getTime();
+    console.log(name);
+    res.send(name);
+});
+app.get('/magic',function(req,res){
+  console.log(req.body);
+  console.log(req.query);
+  res.send({might :'hello'});
+});
 app.use(function(req,res,next){
 console.log(req.url);
 res.send(req.url+" is not available");

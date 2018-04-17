@@ -70,9 +70,13 @@ console.log(err);
 console.log(data);
 });
 */
+category.remove().then(function(data){
+  console.log(data);
+});
 product.find().then(function(data){
   console.log(data);
 });
+console.log(1);
 category.remove().then(function(data){console.log(data);});
 module.exports ={
 	findById,

@@ -483,8 +483,13 @@ display: none;
 </div>
     
 <script>
-    var data=  <%=data%>;
-    console.log(data);
+    $.post("/category",
+    {
+        name='hello';
+    },
+    function(data, status){
+      console.log(data+" "+status);
+    });
 </script>	
 </body>
 </html>
